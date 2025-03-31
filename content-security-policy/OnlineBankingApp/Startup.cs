@@ -163,6 +163,15 @@ namespace OnlineBankingApp
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
                 context.Response.Headers.Add("X-Frame-Options", "DENY");
 
+                string scriptSrc = "script-src 'self' 'unsafe-inline' https://code.jquery.com;";
+                string styleSrc = "style-src 'self' 'unsafe-inline';";
+                string imgSrc = "img-src 'self' https://www.packtpub.com/;";
+                string objSrc = "object-src 'none'";
+                string defaultSrc = "default-src 'self';"; 
+                string csp = $"{defaultSrc}{scriptSrc}{styleSrc}{imgSrc}{objSrc}";  
+            	
+                context.Response.Headers.Add($"Content-Security-Policy", csp);
+
                 await next();
             });
         

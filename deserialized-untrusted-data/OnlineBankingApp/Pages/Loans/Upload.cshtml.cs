@@ -47,6 +47,7 @@ namespace OnlineBankingApp.Pages.Loans
             var customerId = loggedInUser.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier).Value;
             emptyLoan.CustomerID = customerId;
             emptyLoan.TransactionDate = DateTime.Now;
+            emptyLoan.Status = LoanStatus.Pending;
 
             if (await TryUpdateModelAsync<Loan>(
                 emptyLoan,

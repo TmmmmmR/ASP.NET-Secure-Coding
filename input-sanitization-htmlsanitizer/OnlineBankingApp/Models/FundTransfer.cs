@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Ganss.XSS;
 
 namespace OnlineBankingApp.Models
 {
     public class FundTransfer : IValidatableObject
     {
         public int ID { get; set; }
-        
-        public int CustomerID { get; set; }
 
+        public int CustomerID { get; set; }        
+        
         [Display(Name = "Account From")]
         public int AccountFrom { get; set; }
 
@@ -29,7 +30,7 @@ namespace OnlineBankingApp.Models
         [DataType(DataType.MultilineText)]
         public string Note {
             get => note;                      
-            set => note = value;                    
+            set => note = new HtmlSanitizer().Sanitize(value);                    
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -11,6 +11,7 @@ using System.Security.Claims;
 
 namespace OnlineBankingApp.Pages.Loans
 {
+    [AutoValidateAntiforgeryToken]
     public class CreateModel : PageModel
     {
         private readonly OnlineBankingApp.Data.OnlineBankingAppContext _context;

@@ -22,7 +22,7 @@ namespace OnlineBankingApp.Pages.FundTransfers
         [BindProperty]
         public FundTransfer FundTransfer { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid? id)
         {
             if (id == null)
             {

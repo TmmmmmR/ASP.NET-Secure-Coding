@@ -1,5 +1,6 @@
 @page
 @model OnlineBankingApp.Pages.Customers.IndexModel
+@inject System.Text.Encodings.Web.JavaScriptEncoder jsEncoder
 
 @{
     ViewData["Title"] = "List of Customers";
@@ -28,12 +29,12 @@
         $(document).ready(function() {
             @foreach (var item in Model.Customer) {
                 <text>
-                    var $tr = $('<tr>').append($('<td>').text(@Html.Raw(item.FirstName)));
-                    $tr.append($('<td>').text(@Html.Raw(item.MiddleName)));
-                    $tr.append($('<td>').text(@Html.Raw(item.LastName)));
-                    $tr.append($('<td>').text(@Html.Raw(item.DateOfBirth)));
-                    $tr.append($('<td>').text(@Html.Raw(item.Email)));
-                    $tr.append($('<td>').text(@Html.Raw(item.Phone)));
+                    var $tr = $('<tr>').append($('<td>').text("@jsEncoder.Encode(item.FirstName)"));
+                    $tr.append($('<td>').text("@jsEncoder.Encode(item.MiddleName)"));
+                    $tr.append($('<td>').text("@jsEncoder.Encode(item.LastName)"));
+                    $tr.append($('<td>').text("@jsEncoder.Encode(item.DateOfBirth.ToString("d"))"));
+                    $tr.append($('<td>').text("@jsEncoder.Encode(item.Email)"));
+                    $tr.append($('<td>').text("@jsEncoder.Encode(item.Phone)"));
                     $tr.appendTo('#table');
                 </text>
             }

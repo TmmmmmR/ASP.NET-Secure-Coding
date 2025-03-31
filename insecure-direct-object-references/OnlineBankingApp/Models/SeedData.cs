@@ -28,7 +28,7 @@ namespace OnlineBankingApp.Models
                     UserName = "stanley.s.jobson@lobortis.ca",
                     Email = "stanley.s.jobson@lobortis.ca",
                     Accounts = new List<Account>{ 
-                        new Account { 
+                        new Account {
                                 ID = new Guid("79f5c2ef-cd92-4542-8478-deeac12a75cb"),
                                 Name = "Savings",
                                 AccountType = AccountType.Savings, 
@@ -43,6 +43,7 @@ namespace OnlineBankingApp.Models
                         },
                     FundTransfers = new List<FundTransfer>{
                         new FundTransfer { 
+                                ID = new Guid("7C281D46-F2AB-4027-A4D4-3BB97A60012C"),
                                 AccountFrom = new Guid("79f5c2ef-cd92-4542-8478-deeac12a75cb"),
                                 AccountTo = new Guid("c70cdd5b-0a5d-4891-99f3-065cedbce0f2"),
                                 Amount = 510.00m,

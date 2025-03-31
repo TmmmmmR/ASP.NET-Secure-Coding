@@ -8,8 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using OnlineBankingApp.Data;
 using OnlineBankingApp.Models;
 
+using Microsoft.AspNetCore.Authorization;
+
 namespace OnlineBankingApp.Pages.FundTransfers
 {
+    [Authorize(Roles = "Customer,ActiveCustomer")]
     public class IndexModel : PageModel
     {
         private readonly OnlineBankingApp.Data.OnlineBankingAppContext _context;

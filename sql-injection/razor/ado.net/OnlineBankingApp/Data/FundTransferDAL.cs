@@ -55,16 +55,17 @@ namespace OnlineBankingApp.Data
   
             using (SqliteConnection con = new SqliteConnection(connectionString))  
             {  
-                SqliteCommand cmd = new SqliteCommand("Select * from FundTransfer where Note like '%" + search + "%'", con);  
+                SqliteCommand cmd = new SqliteCommand("Select * from FundTransfer where Note like @search", con);  
                 cmd.CommandType = CommandType.Text;  
   
+                cmd.Parameters.AddWithValue("@search", $"%{search}%"); 
+
                 con.Open();  
                 SqliteDataReader rdr = cmd.ExecuteReader();  
   
                 while (rdr.Read())  
                 {  
                     FundTransfer fundtransfer = new FundTransfer();  
-  
                     fundtransfer.ID = Convert.ToInt32(rdr["ID"]);  
                     fundtransfer.AccountFrom = Convert.ToInt32(rdr["AccountFrom"]);  
                     fundtransfer.AccountTo = Convert.ToInt32(rdr["AccountTo"]);

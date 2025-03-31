@@ -26,8 +26,10 @@ namespace OnlineBankingApp.Models
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
 
+        [ReputableEmail]
         [Display(Name = "Email Address")]
         [Required]
+        [EmailAddress]
         public string Email { get; set; }
 
         [Display(Name = "Phone Number")]

@@ -59,12 +59,6 @@
                     @(new Microsoft.AspNetCore.Html.HtmlString(htmlEncoder.Encode(item.Note)))
                 }
             </td>
-            <td>
-                <a asp-page="./Create" asp-route-id="@item.ID" asp-fragment="@(item.Note is null ? string.Empty : urlEncoder.Encode(item.Note))" >Send Again</a>
-            </td>
-            <td>
-                <a asp-page="./Details" asp-route-id="@item.ID" >See Details</a>
-            </td>
         </tr>
 }
     </tbody>

@@ -9,6 +9,9 @@ namespace OnlineBankingApp.Models
     {
         public int ID { get; set; }
 
+        [NotMapped]
+        public string EncCustomerID { get; set; }
+
         [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]
         [Display(Name = "First Name")]
         [StringLength(60, MinimumLength = 3)]

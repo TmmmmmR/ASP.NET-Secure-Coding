@@ -107,12 +107,8 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    var user = await _userManager.FindByEmailAsync(Input.Email);
-                    if (user == null)
-                    {
-                        ModelState.AddModelError(string.Empty, "Customer does not exist.");
-                        return Page();
-                    }
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
             }
 

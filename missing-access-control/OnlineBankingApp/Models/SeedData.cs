@@ -63,8 +63,8 @@ namespace OnlineBankingApp.Models
                             }
                     },
                 };
+                
                 user1.PasswordHash = userManager.PasswordHasher.HashPassword(user1,"rUj5jtV8jrTyHnx!");
-
                 await userManager.CreateAsync(user1);
                 await userManager.AddToRoleAsync(user1,Role.ActiveCustomer);
             }

@@ -88,12 +88,12 @@ namespace OnlineBankingApp
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                 options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+            })
+            .AddRazorPagesOptions(options =>
+            {
+                options.Conventions
+                       .ConfigureFilter(new AutoValidateAntiforgeryTokenAttribute());
             });
-            // .AddRazorPagesOptions(options =>
-            // {
-            //     options.Conventions
-            //            .ConfigureFilter(new AutoValidateAntiforgeryTokenAttribute());
-            // });
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -135,11 +135,6 @@ namespace OnlineBankingApp
                 options.HttpsPort = 5001;
             });
 
-            services.AddAntiforgery(options =>
-            {
-                options.SuppressXFrameOptionsHeader = true;
-            });            
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -159,6 +154,7 @@ namespace OnlineBankingApp
             {
                 context.Response.Headers.Add("X-XSS-Protection",  "1; mode=block");
                 context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+	            context.Response.Headers.Add("Content-Security-Policy", "frame-ancestors 'none'");
 
                 await next();
             });  

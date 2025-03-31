@@ -9,10 +9,11 @@ using OnlineBankingApp.Data;
 using OnlineBankingApp.Models;
 
 using Microsoft.AspNetCore.Authorization;
+using OnlineBankingApp.Authorization;
 
 namespace OnlineBankingApp.Pages.FundTransfers
 {
-    [Authorize]
+    [Authorize(Policy = nameof(PrincipalPermission.CanCreateFundTransfer))]
     public class CreateModel : AccountPageModel
     {
         private readonly OnlineBankingApp.Data.OnlineBankingAppContext _context;

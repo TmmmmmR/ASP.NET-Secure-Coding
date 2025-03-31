@@ -24,10 +24,10 @@ namespace OnlineBankingApp.Services
         {
             List<Knowledge> searchResult = new List<Knowledge>(); 
             var webRoot = _env.WebRootPath;
-            var file = System.IO.Path.Combine(webRoot, "Knowledgebase.xml");            
+            var file = System.IO.Path.Combine(webRoot, "Knowledgebase.xml");
 
             XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.XmlResolver = new XmlUrlResolver();
+            xmlDoc.XmlResolver = null;
             xmlDoc.Load(file);
                         
             XPathNavigator nav = xmlDoc.CreateNavigator();

@@ -1,5 +1,6 @@
 @page
 @model OnlineBankingApp.Pages.FundTransfers.IndexModel
+@inject System.Text.Encodings.Web.HtmlEncoder htmlEncoder
 
 @{
     ViewData["Title"] = "Fund Transfers";
@@ -48,7 +49,7 @@
             </td>
             <td>
                 @if (item.Note is not null) {            
-                    @(new Microsoft.AspNetCore.Html.HtmlString(item.Note))
+                    @(new Microsoft.AspNetCore.Html.HtmlString(htmlEncoder.Encode(item.Note)))
                 }
             </td>
             <td>

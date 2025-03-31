@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using OnlineBankingApp.Data;
+using OnlineBankingApp.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace OnlineBankingApp
@@ -28,6 +25,7 @@ namespace OnlineBankingApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.AddSingleton<IEmailReputation, EmailReputation>();
 
             if (Environment.IsDevelopment())
             {

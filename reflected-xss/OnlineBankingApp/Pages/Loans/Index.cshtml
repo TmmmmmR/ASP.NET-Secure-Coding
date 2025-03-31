@@ -16,7 +16,7 @@
 <table class="table">
     @{
         if(Model.SearchString is not null){
-            <h2>Your search for @Html.Raw(@Model.SearchString) returned @Model.Loan.Count results</h2>
+            <h2>Your search for @Model.SearchString returned @Model.Loan.Count results</h2>
         }
     }
     <thead>

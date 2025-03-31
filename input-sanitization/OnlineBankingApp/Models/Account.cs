@@ -6,7 +6,7 @@ namespace OnlineBankingApp.Models
     public class Account
     {
         public int ID { get; set; }
-
+        
         public int CustomerID { get; set; }
         public Customer Customer { get; set; }
 

@@ -23,6 +23,9 @@ using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Authorization;
 
+using OnlineBankingApp.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+
 namespace OnlineBankingApp
 {
     public class Startup
@@ -86,6 +89,14 @@ namespace OnlineBankingApp
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
                 options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
             });
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Owner", policy =>
+                    policy.Requirements.Add(new FundTransferOwnerRequirement()));
+            });
+
+            services.AddScoped<IAuthorizationHandler,FundTransferIsOwnerAuthorizationHandler>();
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

@@ -8,7 +8,8 @@ namespace OnlineBankingApp.Models
 {
     public class Customer : IdentityUser
     {
-        //public int ID { get; set; }
+        [Key]
+        new public Guid Id { get; set; }
 
         [PersonalData]
         [RegularExpression(@"^[A-Z]+[a-zA-Z]*$")]

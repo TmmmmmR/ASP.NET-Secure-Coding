@@ -70,7 +70,7 @@ namespace OnlineBankingApp
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
-                options.Secure = CookieSecurePolicy.None;
+                options.Secure = CookieSecurePolicy.Always;
             });
 
             services.ConfigureApplicationCookie(options =>
@@ -79,6 +79,7 @@ namespace OnlineBankingApp
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });            
          
             //services.AddRazorPages();
@@ -93,7 +94,8 @@ namespace OnlineBankingApp
             {
                 options.Cookie.Name = ".OnlineBanking.Session";
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = false;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.IsEssential = true;
             });
 

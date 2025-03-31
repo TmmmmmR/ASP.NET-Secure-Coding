@@ -9,14 +9,14 @@
 
 <form>
     <p>
-        Search in Notes: <input type="text" asp-for="SearchString" />
+        Title: <input type="text" asp-for="SearchString" />
         <input type="submit" value="Filter" />
     </p>
 </form>
 <table class="table">
     @{
         if(Model.SearchString is not null){
-            <h2>Your search for @Html.Raw(@Model.SearchString) returned @Model.Loan.Count results</h2>
+            <h2>Your searched for @Model.SearchString returned @Model.Loan.Count results</h2>
         }
     }
     <thead>
@@ -38,23 +38,23 @@
     </thead>
     <tbody>
 @foreach (var item in Model.Loan) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PeriodInMonths)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TransactionDate)
-            </td>
-            <td>
-                @(new HtmlString(item.Note))
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ID">Approve Loan</a> 
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Amount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PeriodInMonths)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TransactionDate)
+        </td>
+        <td>
+            @(new HtmlString(item.Note).Value)
+        </td>
+        <td>
+            <a asp-page="./Edit" asp-route-id="@item.ID">Approve Loan</a> |
+        </td>
+    </tr>
 }
     </tbody>
 </table>

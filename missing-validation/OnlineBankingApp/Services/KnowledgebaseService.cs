@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using OnlineBankingApp.Models;
 
 using System.Xml.Xsl;
+using System.Xml.Schema;
+using System.IO;
 
 namespace OnlineBankingApp.Services
 {
@@ -23,14 +25,31 @@ namespace OnlineBankingApp.Services
         {
             List<Knowledge> searchResult = new List<Knowledge>(); 
             var webRoot = _env.WebRootPath;
+
+            var schemaSet = new XmlSchemaSet();
+            var xsdFile = System.IO.Path.Combine(webRoot, "Knowledgebase.xsd");
+            using (System.IO.FileStream stream = File.OpenRead(xsdFile))
+            {
+                schemaSet.Add(XmlSchema.Read(stream, (s, e) =>
+                {
+                    var x = e.Message;
+                }));
+            }
+
+            XmlReaderSettings settings = new XmlReaderSettings();
+            settings.ValidationType = ValidationType.Schema;
+            settings.Schemas = schemaSet;
+            settings.DtdProcessing = DtdProcessing.Parse;
+
             var file = System.IO.Path.Combine(webRoot, "Knowledgebase.xml");
 
+    		XmlReader reader = XmlReader.Create(file, settings);
             XmlDocument xmlDoc = new XmlDocument()
             {
-                //XmlResolver = null
+                XmlResolver = null
             };
-            xmlDoc.Load(file);
-                        
+            xmlDoc.Load(reader);
+
             XPathNavigator nav = xmlDoc.CreateNavigator();
             XPathExpression expr = nav.Compile(@"//knowledge[tags[contains(text(),$input)] and sensitivity/text()='Public']");
 

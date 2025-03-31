@@ -8,6 +8,7 @@ using OnlineBankingApp.Models;
 
 using System.Linq;
 using System.Xml.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace OnlineBankingApp.Services
 {
@@ -15,10 +16,12 @@ namespace OnlineBankingApp.Services
     {
 
         private IWebHostEnvironment  _env;
+        private readonly ILogger _logger;
 
-        public KnowledgebaseService(IWebHostEnvironment env)
+        public KnowledgebaseService(IWebHostEnvironment env, ILogger logger)
         {
             _env = env;
+            _logger = logger;
         }
 
         public List<Knowledge> Search(string input)
@@ -32,33 +35,38 @@ namespace OnlineBankingApp.Services
             settings.MaxCharactersFromEntities = 1024;
             settings.MaxCharactersInDocument = 2048;
 
-            try {
-                XmlReader reader = XmlReader.Create(file, settings);
-                XDocument xmlDoc = XDocument.Load(reader);        
+            using(XmlReader reader = XmlReader.Create(file, settings)){
+                try {
+                    XDocument xmlDoc = XDocument.Load(reader);
 
-                var query = from i in xmlDoc.Element("knowledgebase")
-                        .Elements("knowledge")
-                        where
-                           (i.Element("topic").ToString().Contains(input) == true ||
-                           i.Element("description").ToString().Contains(input) == true) &&
-                           i.Element("sensitivity").ToString().Contains("Public") == true
-                        select new
-                        {
-                            Topic = (string)i.Element("topic"),
-                            Description = (string)i.Element("description")
-                        };
+                    var query = from i in xmlDoc.Element("knowledgebase")
+                            .Elements("knowledge")
+                            where
+                            (i.Element("topic").ToString().Contains(input) == true ||
+                            i.Element("description").ToString().Contains(input) == true) &&
+                            i.Element("sensitivity").ToString().Contains("Public") == true
+                            select new
+                            {
+                                Topic = (string)i.Element("topic"),
+                                Description = (string)i.Element("description")
+                            };
 
-                foreach (var knowledge in query)
-                {                
-                    searchResult.Add(new Knowledge() {Topic = knowledge.Topic ,Description = knowledge.Description });                
+                    foreach (var knowledge in query)
+                    {                
+                        searchResult.Add(new Knowledge() {Topic = knowledge.Topic ,Description = knowledge.Description });                
+                    }
+
+                    return searchResult;
                 }
-
-                return searchResult;
+                catch (XmlException ex) {
+                    _logger.LogCritical(String.Format("Reader error: {0}", ex.Message));
+                    throw new XmlException(ex.Message);
+                }
+                catch (Exception ex) {  
+                    _logger.LogCritical(String.Format("Reader error: {0}", ex.Message));              
+                    throw new Exception(ex.Message);
+                }
             }
-            catch (Exception) {
-                return searchResult;
-            }
-
         }
     }
 

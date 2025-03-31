@@ -13,7 +13,8 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace OnlineBankingApp.Pages.FundTransfers
 {
-    [Authorize(Roles = "Customer,ActiveCustomer")]
+    [Authorize(Roles = "Customer")]
+    [Authorize(Roles = "ActiveCustomer")]
     public class CreateModel : AccountPageModel
     {
         private readonly OnlineBankingApp.Data.OnlineBankingAppContext _context;

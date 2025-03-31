@@ -8,7 +8,8 @@ namespace OnlineBankingApp.Models
 {
     public class FundTransfer : IValidatableObject
     {
-        public int ID { get; set; }
+        [Key]
+        public Guid ID { get; set; }
 
         [ForeignKey("Customer")]
         public string CustomerID { get; set; }

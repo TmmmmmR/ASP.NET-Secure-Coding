@@ -8,15 +8,19 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineBankingApp.Data;
 using OnlineBankingApp.Models;
+using Microsoft.Extensions.Logging;
 
 namespace OnlineBankingApp.Pages.Backups
 {
     public class EditModel : PageModel
     {
         private readonly OnlineBankingApp.Data.OnlineBankingAppContext _context;
+        private readonly ILogger<EditModel> _logger;
 
-        public EditModel(OnlineBankingApp.Data.OnlineBankingAppContext context)
+        public EditModel(OnlineBankingApp.Data.OnlineBankingAppContext context, 
+                        ILogger<EditModel> logger)
         {
+            _logger = logger;
             _context = context;
         }
 
@@ -43,7 +47,8 @@ namespace OnlineBankingApp.Pages.Backups
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid){
+            if (!ModelState.IsValid)
+            {
                 return Page();
             }
 
@@ -52,14 +57,17 @@ namespace OnlineBankingApp.Pages.Backups
             try{
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException){
+            catch (DbUpdateException ex){
                 if (!BackupExists(Backup.ID)){
+                    _logger.LogError("Backup not found");
                     return NotFound();
                 }
                 else{
+                    _logger.LogError($"An error occurred in backing up the DB { ex.Message } ");
                     throw;
                 }
             }
+
             return RedirectToPage("./Index");
         }
 

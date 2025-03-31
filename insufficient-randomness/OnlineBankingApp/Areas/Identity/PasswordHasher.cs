@@ -71,8 +71,8 @@ namespace OnlineBankingApp.Identity
         private byte[] CreateSalt()
         {
             var buffer = new byte[SaltBytes];
-            Random rnd = new Random();
-            rnd.NextBytes(buffer);
+            var rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(buffer);
             return buffer;
         }
     }

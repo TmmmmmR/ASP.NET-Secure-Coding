@@ -26,7 +26,6 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly ICryptoService _cryptoService;
-        private const string key = "BGw3UHkI4z";
 
         public RegisterModel(
             UserManager<Customer> userManager,
@@ -104,9 +103,9 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new Customer { 
-                    FirstName = _cryptoService.Encrypt(Input.FirstName, key),
-                    MiddleName = _cryptoService.Encrypt(Input.MiddleName, key),
-                    LastName = _cryptoService.Encrypt(Input.LastName, key),
+                    FirstName = _cryptoService.Encrypt(Input.FirstName, Environment.GetEnvironmentVariable("securekey", EnvironmentVariableTarget.Machine)),
+                    MiddleName = _cryptoService.Encrypt(Input.MiddleName, Environment.GetEnvironmentVariable("securekey", EnvironmentVariableTarget.Machine)),
+                    LastName = _cryptoService.Encrypt(Input.LastName, Environment.GetEnvironmentVariable("securekey", EnvironmentVariableTarget.Machine)),
                     DateOfBirth = Input.DateOfBirth,                    
                     UserName = Input.Email, 
                     Email = Input.Email 

@@ -68,7 +68,7 @@ namespace OnlineBankingApp
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-                options.ExpireTimeSpan = TimeSpan.FromHours(24);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
             });            
          
             //services.AddRazorPages();
@@ -83,7 +83,7 @@ namespace OnlineBankingApp
             {
                 options.Cookie.Name = ".OnlineBanking.Session";
                 options.IdleTimeout = TimeSpan.FromSeconds(10);
-                options.Cookie.HttpOnly = false;
+                options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
 

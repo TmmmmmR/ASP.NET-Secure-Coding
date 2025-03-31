@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Authorization;
+using OnlineBankingApp.Authorization;
 
 namespace OnlineBankingApp
 {
@@ -101,6 +102,12 @@ namespace OnlineBankingApp
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
+
+                foreach (var criterion in PrincipalPermission.Criteria)
+                {
+                    options.AddPolicy(criterion.Method.Name,
+                                policy => policy.RequireAssertion(criterion));
+                }   
             });            
 
             services.AddSingleton<IKnowledgebaseService, KnowledgebaseService>();

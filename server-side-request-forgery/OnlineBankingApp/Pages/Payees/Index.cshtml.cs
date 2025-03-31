@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using OnlineBankingApp.Data;
 using OnlineBankingApp.Models;
 using OnlineBankingApp.Services;
+using System.Text.RegularExpressions;
+using System.Net.Http;
 
 namespace OnlineBankingApp.Pages.Payees
 {
@@ -26,11 +28,27 @@ namespace OnlineBankingApp.Pages.Payees
         {
             var mongouri = Request.Query["mongouri"];
             
-            mongouri = string.IsNullOrWhiteSpace(mongouri) 
-                    ? "http://localhost:28017/test/Payees/" 
-                    : Request.Query["mongouri"];
-
+            if (string.IsNullOrWhiteSpace(mongouri))
+            {
+                mongouri = "http://localhost:28017/test/Payees/";
+            }
+            else 
+            {
+                if(!IsValidMongoRestUri(mongouri))
+                {
+                    throw new HttpRequestException("Invalid Request");
+                }
+            }
             Roots = await _payeeService.GetPayeesAsync(mongouri);
         }
+
+        private bool IsValidMongoRestUri(string mongouri)
+        {
+            string pattern = @"^http://localhost:28017/test/Payees/\\?$";
+            Regex regex = new Regex(pattern, RegexOptions.IgnoreCase);
+            return regex.IsMatch(mongouri);
+        }
+
+
     }
 }

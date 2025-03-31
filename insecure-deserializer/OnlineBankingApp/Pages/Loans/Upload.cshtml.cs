@@ -38,6 +38,7 @@ namespace OnlineBankingApp.Pages.Loans
             {
                 await Upload.CopyToAsync(fileStream);
                 BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Binder = new LoanDeserializationBinder();
                 fileStream.Position = 0;
                 emptyLoan = (Loan) formatter.Deserialize(fileStream);
             }

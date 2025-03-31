@@ -38,7 +38,7 @@ namespace OnlineBankingApp
                 {
                     webHost.UseKestrel(kestrelOptions =>
                     {
-                        kestrelOptions.AddServerHeader = true;
+                        kestrelOptions.AddServerHeader = false;
                         kestrelOptions.ConfigureHttpsDefaults(httpsOptions =>
                         {
                             httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;

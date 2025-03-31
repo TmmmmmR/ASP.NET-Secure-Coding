@@ -30,36 +30,8 @@ namespace OnlineBankingApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            CultureInfo[] supportedCultures = new[]
-            {
-                    new CultureInfo("en"),
-                    new CultureInfo("de"),
-                    new CultureInfo("fr"),
-                    new CultureInfo("es"),
-                    new CultureInfo("en-GB")
-            };            
-
-            services.Configure<RequestLocalizationOptions>(options =>
-            {
-                options.DefaultRequestCulture = new RequestCulture("en-GB");
-                options.SupportedCultures = supportedCultures;
-                options.SupportedUICultures = supportedCultures;
-            });   
-
-            services.AddLocalization(options => options.ResourcesPath = "Resources");            
 
             services.AddRazorPages();
-
-            // if (Environment.IsDevelopment())
-            // {
-            //     services.AddDbContext<OnlineBankingAppContext>(options =>
-            //         options.UseSqlite(Configuration.GetConnectionString("OnlineBankingAppContext")));
-            // }
-            // else
-            // {
-            //     services.AddDbContext<OnlineBankingAppContext>(options =>
-            //         options.UseSqlServer(Configuration.GetConnectionString("OnlineBankingAppContext")));
-            // }
 
         }
 
@@ -78,9 +50,6 @@ namespace OnlineBankingApp
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            var localizationOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>().Value;
-            app.UseRequestLocalization(localizationOptions);
 
             app.UseAuthorization();
 

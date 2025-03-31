@@ -92,7 +92,6 @@ namespace OnlineBankingApp.Models
                                 Status = LoanStatus.Pending
                             }
                         }
-
                 };
                 user2.PasswordHash = userManager.PasswordHasher.HashPassword(user2,"6GKqqtQQTii92ke!");
                 await userManager.CreateAsync(user2);
