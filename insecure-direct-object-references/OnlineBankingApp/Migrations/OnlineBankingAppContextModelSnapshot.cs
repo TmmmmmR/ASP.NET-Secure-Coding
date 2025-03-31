@@ -272,9 +272,9 @@ namespace OnlineBankingApp.Migrations
 
             modelBuilder.Entity("OnlineBankingApp.Models.FundTransfer", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<Guid>("AccountFrom")
                         .HasColumnType("TEXT");

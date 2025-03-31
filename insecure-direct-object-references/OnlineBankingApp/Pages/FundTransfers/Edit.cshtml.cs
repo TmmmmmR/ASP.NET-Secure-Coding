@@ -23,7 +23,7 @@ namespace OnlineBankingApp.Pages.FundTransfers
         [BindProperty]
         public FundTransfer FundTransfer { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(Guid? id)
         {
             if (id == null)
             {
@@ -69,7 +69,7 @@ namespace OnlineBankingApp.Pages.FundTransfers
             return RedirectToPage("./Index");
         }
 
-        private bool FundTransferExists(int id)
+        private bool FundTransferExists(Guid id)
         {
             return _context.FundTransfer.Any(e => e.ID == id);
         }

@@ -23,13 +23,20 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
             _log = log;
         }
 
-        public async Task<IActionResult> OnGet(string url = null)
+        public void OnGet()
+        {
+        }
+
+        public async Task<IActionResult> OnPost(string url = null)
         {
             await _signInManager.SignOutAsync();
             _log.LogInformation("User logged out.");
             if (url != null)
             {
-                return Redirect(url);
+                if (Url.IsLocalUrl(url)) 
+                    return Redirect(url);
+                else 
+                    return RedirectToPage();
             }
             else
             {

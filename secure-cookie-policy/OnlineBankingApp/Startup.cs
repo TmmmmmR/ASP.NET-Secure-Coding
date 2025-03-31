@@ -24,6 +24,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Microsoft.AspNetCore.CookiePolicy;
+
 namespace OnlineBankingApp
 {
     public class Startup
@@ -40,6 +42,14 @@ namespace OnlineBankingApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.MinimumSameSitePolicy = SameSiteMode.Strict;
+                options.Secure = Environment.IsDevelopment() ? 
+                        CookieSecurePolicy.None : CookieSecurePolicy.Always;                
+                options.HttpOnly = HttpOnlyPolicy.Always;
+            });
+
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -67,16 +77,29 @@ namespace OnlineBankingApp
                 .AddEntityFrameworkStores<OnlineBankingAppContext>()
                 .AddDefaultTokenProviders();
          
-
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = $"/Identity/Account/Login";
                 options.LogoutPath = $"/Identity/Account/Logout";
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  
+            }); 
+
+            services.AddAntiforgery(options => 
+            {
+                options.SuppressXFrameOptionsHeader = false;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Strict;
             });            
-         
-            //services.AddRazorPages();
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = ".OnlineBanking.Session";
+                options.Cookie.SameSite = SameSiteMode.Strict;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;                
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+            });
+
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
@@ -89,11 +112,6 @@ namespace OnlineBankingApp
             });
 
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = ".OnlineBanking.Session";
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
-            });
 
             services.AddAuthorization(options =>
             {
@@ -145,6 +163,7 @@ namespace OnlineBankingApp
 
             app.UseRouting();
 
+            app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
 

@@ -43,13 +43,14 @@
 </table>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     @{
         if(Model.SearchString is not null){
             <script>
                 $(document).ready(function () {
                     var param = new URLSearchParams(window.location.search);
                     var searchString = param.get('SearchString');
-                    var message = '<br><h2> You searched for ' + searchString + '</h2>';
+                    var message = '<br><h2> You searched for ' + _.escape(searchString) + '</h2>';
                     $('#searchForm').append(message);
                 });
             </script>

@@ -10,6 +10,7 @@ using OnlineBankingApp.Models;
 
 namespace OnlineBankingApp.Areas.Identity.Pages.Account.Manage
 {
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public partial class IndexModel : PageModel
     {
         private readonly UserManager<Customer> _userManager;

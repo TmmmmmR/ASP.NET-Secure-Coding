@@ -13,7 +13,6 @@ namespace OnlineBankingApp.Models
         [StringLength(15)]
         public string Name { get; set; }
 
-        [Display(Name = "Backup Date")]
         [DataType(DataType.Date)]
         public DateTime BackupDate { get; set; }
 

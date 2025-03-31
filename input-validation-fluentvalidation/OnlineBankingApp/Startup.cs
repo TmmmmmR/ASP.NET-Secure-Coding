@@ -11,6 +11,10 @@ using Microsoft.Extensions.Hosting;
 using OnlineBankingApp.Data;
 using Microsoft.EntityFrameworkCore;
 
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using OnlineBankingApp.Models;
+
 namespace OnlineBankingApp
 {
     public class Startup
@@ -27,7 +31,9 @@ namespace OnlineBankingApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
+            services.AddRazorPages().AddFluentValidation();
+
+            services.AddTransient<IValidator<Customer>, CustomerValidator>();
 
             if (Environment.IsDevelopment())
             {

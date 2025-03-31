@@ -26,6 +26,7 @@ namespace OnlineBankingApp.Services
             var file = System.IO.Path.Combine(webRoot, "Knowledgebase.xml");
 
             XmlTextReader xmlReader = new XmlTextReader(file);
+            //xmlReader.DtdProcessing = DtdProcessing.Ignore;
             XPathDocument xmlDoc = new XPathDocument(xmlReader);
             
             XPathNavigator nav = xmlDoc.CreateNavigator();

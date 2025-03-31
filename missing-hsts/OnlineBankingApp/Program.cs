@@ -19,7 +19,7 @@ namespace OnlineBankingApp
 
                 try
                 {
-                    SeedData.Initialize(services);
+                    SeedData.Initialize(services).Wait();
                 }
                 catch (Exception ex)
                 {

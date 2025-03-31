@@ -71,7 +71,10 @@ namespace OnlineBankingApp
                     options.UseSqlServer(Configuration.GetConnectionString("OnlineBankingAppContext")));
             }
 
-            services.AddDatabaseDeveloperPageExceptionFilter();
+            if (Environment.IsDevelopment())
+            {
+                services.AddDatabaseDeveloperPageExceptionFilter();
+            }
 
             services.AddIdentity<Customer,IdentityRole>(
                         options => options.SignIn.RequireConfirmedAccount = false)
@@ -152,16 +155,14 @@ namespace OnlineBankingApp
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages(
+                    "text/plain", "Status code page, status code: {0}");
             }
             else
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
-            app.UseStatusCodePages(
-                "text/plain", "Status code page, status code: {0}");
-
 
             app.Use(async (context, next) =>
             {

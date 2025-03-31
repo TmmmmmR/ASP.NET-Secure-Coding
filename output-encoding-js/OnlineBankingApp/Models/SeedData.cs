@@ -23,11 +23,11 @@ namespace OnlineBankingApp.Models
                 context.Customer.AddRange(
                     new Customer
                     {
-                        FirstName = "Dylan",
+                        FirstName = "Stanley",
                         MiddleName = "Sybil",
-                        LastName = "Quin",
+                        LastName = "Jobson",
                         DateOfBirth = DateTime.Parse("10/11/1933"),
-                        Email = "sed.pede.nec@lobortis.ca",
+                        Email = "stanley.s.jobson@lobortis.ca",
                         Phone = "278133950",
                         Accounts = new List<Account>{ 
                             new Account { 
@@ -44,11 +44,11 @@ namespace OnlineBankingApp.Models
                     },
                     new Customer
                     {
-                        FirstName = "Doris",
+                        FirstName = "Axl",
                         MiddleName = "Lucius",
-                        LastName = "Fallon",
+                        LastName = "Torvalds",
                         DateOfBirth = DateTime.Parse("03/11/1945"),
-                        Email = "in.at.pede@ut.net",
+                        Email = "axl.l.torvalds@ut.net",
                         Phone = "585838762",
                         Accounts = new List<Account>{ 
                             new Account { 

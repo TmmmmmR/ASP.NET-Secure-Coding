@@ -14,10 +14,9 @@ namespace OnlineBankingApp.Models
                 serviceProvider.GetRequiredService<
                     DbContextOptions<OnlineBankingAppContext>>()))
             {
-
                 if (context.Customer.Any())
                 {
-                    return;  
+                    return;
                 }
 
                 context.Customer.AddRange(

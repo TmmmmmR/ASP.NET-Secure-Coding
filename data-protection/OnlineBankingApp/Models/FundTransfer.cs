@@ -18,6 +18,7 @@ namespace OnlineBankingApp.Models
         [Display(Name = "Account To")]
         public int AccountTo { get; set; }        
         
+        [DisplayFormat(DataFormatString = "{0:d}")]
         [DataType(DataType.Date)]
         public DateTime TransactionDate { get; set; }
 

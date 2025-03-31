@@ -31,7 +31,10 @@ namespace OnlineBankingApp.Pages.FundTransfers
 
             if (!string.IsNullOrEmpty(SearchString))
             {
-                fundtransfer = _context.FundTransfer.FromSqlRaw("Select * from FundTransfer Where Note Like'%" + SearchString + "%'");
+                fundtransfer = _context.FundTransfer.FromSqlInterpolated($"Select * from FundTransfer Where Note Like {"%" + SearchString + "%"}");
+                
+                //This line is vulnerable to SQL injection attacks
+                //fundtransfer = _context.FundTransfer.FromSqlRaw($"Select * from FundTransfer Where Note Like '%{SearchString}%'");
             }
 
             FundTransfer = await fundtransfer.ToListAsync();

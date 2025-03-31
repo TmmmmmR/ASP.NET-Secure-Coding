@@ -137,11 +137,10 @@ namespace OnlineBankingApp
             }
             else
             {
-                appBuilder.UseDeveloperExceptionPage();
-                //app.UseExceptionHandler("/Error");
+                appBuilder.UseExceptionHandler("/Error");
                 appBuilder.UseHsts();
             }
-
+        
             appBuilder.UseHttpsRedirection();        
             appBuilder.UseStaticFiles();
 

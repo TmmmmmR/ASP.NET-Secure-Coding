@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.RegularExpressions;
 
 namespace OnlineBankingApp.Models
 {
@@ -29,7 +30,7 @@ namespace OnlineBankingApp.Models
         [DataType(DataType.MultilineText)]
         public string Note {
             get => note;                      
-            set => note = value;                    
+            set => note = Regex.Replace(value, @"[\!\@\$\%\^\&\<\>\?\|\;\[\]\{\~]+", string.Empty);                     
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

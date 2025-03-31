@@ -10,7 +10,6 @@ using OnlineBankingApp.Models;
 
 namespace OnlineBankingApp.Areas.Identity.Pages.Account.Manage
 {
-    [IgnoreAntiforgeryToken(Order = 1001)]
     public partial class IndexModel : PageModel
     {
         private readonly UserManager<Customer> _userManager;

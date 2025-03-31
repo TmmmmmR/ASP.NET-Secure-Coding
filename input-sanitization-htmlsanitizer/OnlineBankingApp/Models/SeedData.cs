@@ -28,7 +28,7 @@ namespace OnlineBankingApp.Models
                         LastName = "Jobson",
                         DateOfBirth = DateTime.Parse("10/11/1933"),
                         Email = "stanley.s.jobson@lobortis.ca",
-                        Phone = "278133500",
+                        Phone = "278133950",
                         Accounts = new List<Account>{ 
                             new Account { 
                                     Name = "Savings",

@@ -57,7 +57,7 @@ namespace OnlineBankingApp
             else
             {
                 services.AddDbContext<OnlineBankingAppContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("OnlineBankingAppContext")));
+                    options.UseSqlite(Configuration.GetConnectionString("OnlineBankingAppContext")));
             }
 
             services.AddIdentity<Customer,IdentityRole>(
@@ -106,6 +106,17 @@ namespace OnlineBankingApp
             services.AddSingleton<IKnowledgebaseService, KnowledgebaseService>();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
+
+            if (!Environment.IsDevelopment())
+            {
+                services.AddHsts(options =>
+                {
+                    options.ExcludedHosts.Clear();                    
+                    options.Preload = true;
+                    options.IncludeSubDomains = true;
+                    options.MaxAge = TimeSpan.FromDays(60);
+                });
+            }
             
             services.AddHttpsRedirection(options =>
             {
@@ -125,6 +136,7 @@ namespace OnlineBankingApp
             else
             {
                 appBuilder.UseExceptionHandler("/Error");
+                appBuilder.UseHsts();
             }
         
             appBuilder.UseHttpsRedirection();        

@@ -20,12 +20,9 @@ namespace OnlineBankingApp.Services
         public List<Payee> Get() =>
             payees.Find(payee => true).ToList();
 
-        public List<Payee> Get(string name) {
-            
-            var filter = "{$where: \"function() {return this.Name == '" + name + "'}\"}";
-            return payees.Find(filter).ToList();
+        public List<Payee> Get(string name) {            
+            return payees.Find(payee => payee.Name == name).ToList();
         }
-
         public Payee Create(Payee payee)
         {
             payees.InsertOne(payee);

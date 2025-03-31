@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Http;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace OnlineBankingApp
 {
@@ -80,14 +81,23 @@ namespace OnlineBankingApp
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);  
             });            
          
-            //services.AddRazorPages();
             services.AddRazorPages(options =>
             {
                 options.Conventions.AuthorizeAreaFolder("Identity", "/Account/Manage");
-                options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");
+                options.Conventions.AuthorizeAreaPage("Identity", "/Account/Logout");                        
             });
 
-            services.AddDistributedMemoryCache();
+            services.AddMvc(options =>
+            {
+                options.CacheProfiles.Add("NoCache",
+                    new CacheProfile()
+                    {
+                        Duration = 30,
+                        Location = ResponseCacheLocation.None, 
+                        NoStore = true
+                    });
+            });
+
             services.AddSession(options =>
             {
                 options.Cookie.Name = ".OnlineBanking.Session";

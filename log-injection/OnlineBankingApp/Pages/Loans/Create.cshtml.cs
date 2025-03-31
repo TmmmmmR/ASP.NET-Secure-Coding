@@ -10,6 +10,8 @@ using OnlineBankingApp.Models;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 
+using System.Text.RegularExpressions;
+
 namespace OnlineBankingApp.Pages.Loans
 {
     public class CreateModel : PageModel
@@ -57,6 +59,10 @@ namespace OnlineBankingApp.Pages.Loans
                 await _context.SaveChangesAsync();
             }
             else {
+                if (!String.IsNullOrEmpty(emptyLoan.Note)) {
+                    emptyLoan.Note = Regex.Replace(emptyLoan.Note, @"[\!\@\$\%\^\&\<\>\?\|\;\[\]\{\~]+", string.Empty);     
+                }
+
                 _logger.LogWarning("Problem creating loan:" + emptyLoan.CustomerID + ";" 
                             + emptyLoan.Amount + ";" 
                             + emptyLoan.PeriodInMonths + ";" 

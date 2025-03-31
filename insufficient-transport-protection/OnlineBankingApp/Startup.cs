@@ -107,6 +107,23 @@ namespace OnlineBankingApp
             services.AddSingleton<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration);
 
+            if (Environment.IsDevelopment())
+            {
+                services.AddHttpsRedirection(options =>
+                {
+                    options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                    options.HttpsPort = 5001;
+                });
+            }
+            else 
+            {
+                services.AddHttpsRedirection(options =>
+                {
+                    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+                    options.HttpsPort = 443;
+                });
+            }
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -121,6 +138,7 @@ namespace OnlineBankingApp
                 app.UseExceptionHandler("/Error");
             }
         
+            app.UseHttpsRedirection();        
             app.UseStaticFiles();
 
             app.UseRouting();

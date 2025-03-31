@@ -39,11 +39,17 @@ namespace OnlineBankingApp.Pages.Loans
                 await Upload.CopyToAsync(fileStream);
                 using (var reader = new StreamReader (Upload.OpenReadStream())) {
                     string fileContent = reader.ReadToEnd ();
-                    emptyLoan = (Loan) Newtonsoft.Json.JsonConvert.DeserializeObject(fileContent, 
-                        new JsonSerializerSettings
-                        {
-                            TypeNameHandling = TypeNameHandling.All
-                        });
+                    try {
+                        emptyLoan = (Loan) Newtonsoft.Json.JsonConvert.DeserializeObject<Loan>(fileContent, 
+                            new JsonSerializerSettings
+                            {
+                                TypeNameHandling = TypeNameHandling.None
+                            });
+                    }
+                    catch (JsonException je) {
+                        	//_logger.LogError($"Unexpected error deserializing data '{je.Message}'.");
+                            throw new JsonException(je.Message);
+                    }
                 }
             }
 

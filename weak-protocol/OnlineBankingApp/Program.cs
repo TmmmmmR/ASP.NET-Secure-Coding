@@ -40,7 +40,7 @@ namespace OnlineBankingApp
                     {
                         options.ConfigureHttpsDefaults(https =>
                         {
-                            https.SslProtocols = SslProtocols.Tls;
+                            https.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
                         });
                     });                    
                     host.UseStartup<Startup>();

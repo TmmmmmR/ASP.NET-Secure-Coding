@@ -92,10 +92,8 @@ namespace OnlineBankingApp
             .AddRazorPagesOptions(options =>
             {
                 options.Conventions
-                       .ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+                       .ConfigureFilter(new AutoValidateAntiforgeryTokenAttribute());
             });
-
-            //services.AddAntiforgery(options => options.HeaderName = "__RequestVerificationToken");
 
             services.AddDistributedMemoryCache();
             services.AddSession(options =>
@@ -151,13 +149,6 @@ namespace OnlineBankingApp
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
-
-            app.Use(async (context, next) =>
-            {
-                context.Response.Headers.Add("Access-Control-Allow-Origin", "*");
-
-                await next();
-            });  
         
             app.UseHttpsRedirection();        
             app.UseStaticFiles();

@@ -57,8 +57,10 @@ namespace OnlineBankingApp
                     options.UseSqlServer(Configuration.GetConnectionString("OnlineBankingAppContext")));
             }
 
-            services.AddIdentity<Customer,IdentityRole>(
-                        options => options.SignIn.RequireConfirmedAccount = false)
+            services.AddIdentity<Customer,IdentityRole>(options => { 
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                    options.Lockout.MaxFailedAccessAttempts = 3; 
+                })
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<OnlineBankingAppContext>()
                 .AddDefaultTokenProviders();

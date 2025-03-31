@@ -64,7 +64,17 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
 
-            returnUrl ??= Url.Content("~/");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                if(SplitExist(returnUrl))
+                {
+                    throw new InvalidOperationException(string.Format("Invalid character in the return url"));                    
+                }
+            }
+            else 
+            {
+                returnUrl = Url.Content("~/");
+            }
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -76,7 +86,17 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            if (!string.IsNullOrEmpty(returnUrl))
+            {
+                if(SplitExist(returnUrl))
+                {
+                    throw new InvalidOperationException(string.Format("Invalid character in the return url"));                    
+                }
+            }
+            else 
+            {
+                returnUrl = Url.Content("~/");
+            }
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         
@@ -115,5 +135,13 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+        private bool SplitExist(string input)
+        {
+            return input.FirstOrDefault(c => c == 0x13 || c == 0x10) != 0 
+                ? true
+                : false;
+        }
+
     }
 }

@@ -12,7 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using OnlineBankingApp.Models;
-using Microsoft.AspNetCore.Http;
 
 namespace OnlineBankingApp.Areas.Identity.Pages.Account
 {
@@ -22,7 +21,6 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
         private readonly UserManager<Customer> _userManager;
         private readonly SignInManager<Customer> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        public const string SessionKeyName = "_email";
 
         public LoginModel(SignInManager<Customer> signInManager, 
             ILogger<LoginModel> logger,
@@ -88,12 +86,6 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-
-                    if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyName)))
-                    {
-                        HttpContext.Session.SetString(SessionKeyName, Input.Email);
-                    }
-
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

@@ -12,14 +12,14 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account.Manage
 {
     public class Disable2faModel : PageModel
     {
-        private readonly UserManager<Customer> _customerManager;
+        private readonly UserManager<Customer> _userManager;
         private readonly ILogger<Disable2faModel> _logger;
 
         public Disable2faModel(
             UserManager<Customer> userManager,
             ILogger<Disable2faModel> logger)
         {
-            _customerManager = userManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -28,15 +28,16 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnGet()
         {
-            var customer = await _customerManager.GetUserAsync(User);
-            if (customer == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                return NotFound($"Unable to load customer with ID '{_customerManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            if (!await _customerManager.GetTwoFactorEnabledAsync(customer))
+            if (!await _userManager.GetTwoFactorEnabledAsync(user))
             {
-                throw new InvalidOperationException($"Cannot disable 2FA for customer with ID '{_customerManager.GetUserId(User)}' as it's not currently enabled.");
+                _logger.LogError($"Cannot disable 2FA for user with ID '{_userManager.GetUserId(User)}' as it's not currently enabled.");
+                throw new InvalidOperationException($"Cannot disable 2FA for user with ID '{_userManager.GetUserId(User)}' as it's not currently enabled.");
             }
 
             return Page();
@@ -44,19 +45,20 @@ namespace OnlineBankingApp.Areas.Identity.Pages.Account.Manage
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var customer = await _customerManager.GetUserAsync(User);
-            if (customer == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
             {
-                return NotFound($"Unable to load customer with ID '{_customerManager.GetUserId(User)}'.");
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var disable2faResult = await _customerManager.SetTwoFactorEnabledAsync(customer, false);
+            var disable2faResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
             if (!disable2faResult.Succeeded)
             {
-                throw new InvalidOperationException($"Unexpected error occurred disabling 2FA for customer with ID '{_customerManager.GetUserId(User)}'.");
+                _logger.LogError($"Unexpected error occurred disabling 2FA for user with ID '{_userManager.GetUserId(User)}'.");
+                throw new InvalidOperationException($"Unexpected error occurred disabling 2FA for user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            _logger.LogInformation("Customer with ID '{UserId}' has disabled 2fa.", _customerManager.GetUserId(User));
+            _logger.LogInformation("User with ID '{UserId}' has disabled 2fa.", _userManager.GetUserId(User));
             StatusMessage = "2fa has been disabled. You can reenable 2fa when you setup an authenticator app";
             return RedirectToPage("./TwoFactorAuthentication");
         }
